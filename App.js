@@ -6,14 +6,22 @@ import { Ionicons } from '@expo/vector-icons';
 import { Asset } from 'expo-asset';
 import { Text, Image } from 'react-native';
 
+const loadFonts = (fonts) => fonts.map(font => Font.loadAsync(font));
+const loadImages = (images) => images.map(image => {
+  if (typeof image === "string") {
+    return Image.prefetch(image);
+  } else {
+    return Asset.loadAsync(image);
+  }
+})
+
 export default function App() {
   const [ready, setReady] = useState(false);
   const onFinish = () => setReady(true); // called when AppLoading is finished
   const startLoading = async() => {
-    // fetch sth from server/db before loading
-    // await new Promise(resolve => setTimeout(resolve, 10000)); // just random 10 secs to make the AppLoading stay
-    await Font.loadAsync(Ionicons.font);
-    await Asset.loadAsync(require('./image.png'));
+    const fonts = loadFonts([Ionicons.font]);
+    const images = loadImages([require('./image.png'), 'https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg'])
+    await Promise.all([...fonts, ...images]);
   };
 
   if (!ready) {
