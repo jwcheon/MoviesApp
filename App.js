@@ -5,6 +5,8 @@ import { useFonts } from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { Asset, useAssets } from 'expo-asset';
 import { Text, Image } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import Tabs from './navigation/Tabs';
 
 export default function App() {
   const [assets] = useAssets([require('./image.png')]);
@@ -15,6 +17,9 @@ export default function App() {
   }
 
   return (
-    <Text>Done Loading!</Text>
+    <NavigationContainer>
+      {/* <Text>Done Loading!</Text> */}
+      <Tabs />
+    </NavigationContainer>
   );
 }
